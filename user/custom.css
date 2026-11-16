@@ -1,7 +1,282 @@
 /* ============================================================================
- * user/custom.css — 用户与执行端 Agent 专属样式改装层
- * 说明：
- * 1. 本文件在 core/theme.css 之后自动追加注入，升级 core/ 内核时永不覆盖本文件。
- * 2. 修改本文件保存后，常驻守护进程会在 2.5 秒内自动检测并热重载生效，无需重启服务。
- * 3. 若排障时怀疑自定义样式冲突，可运行 `node install.mjs verify --safe-mode` 临时隔离。
+ * 墨韵暖灰 · Material Design 3 × Anthropic Warm Paper Dark Theme (v5.3.0 对齐版)
+ * 专为常年夜间模式 & M3 风格定制（位于 user/custom.css，2.5s 热更新，升级永不覆盖）
+ *
+ * 设计哲学：
+ * 1. 告别刺眼纯黑 (#070708) 与纯白字 (#FFFFFF)，采用低饱和暖炭灰纸张基底 (#1B1A18)
+ *    搭配象牙宣纸暖白文字 (#EAE4DC)，兼顾纸质书卷的温润感与长时间夜间编码的护眼度。
+ * 2. 遵循 Material Design 3 (M3) Tonal Surface 色阶容器规范，完全摒弃毛玻璃模糊与厚重阴影，
+ *    完全依靠精确的明度阶梯 (Surface Dim -> Surface -> Container Low/Default/High/Highest)
+ *    与干净的 1px 暖灰描边构建空间秩序（同时完整保留内置浏览器透明打孔穿透）。
+ * 3. 将 Anthropic 标志性的赤陶暖橘 (#D97757) 与暗红火漆蜡封自然融入深色模式，
+ *    并全量对齐 v5.3.0 的 html[data-ag-theme-mode="dark"]、[data-markdown-root]、
+ *    Swarm 跨域子帧及 +N sub 子代理指标徽标。
  * ============================================================================ */
+
+html[data-ag-theme-mode="dark"],
+html[data-ag-theme-mode="dark"] body,
+html:has(> body.dark),
+body.dark,
+body.theme-dark,
+body[data-agy-theme].dark,
+html[data-ag-preset] body.dark,
+html[data-ag-preset] body[data-agy-theme].dark {
+  /* --- M3 Tonal Surface Hierarchy (Warm Charcoal Paper) --- */
+  --background: #1B1A18 !important;            /* M3 Surface: 乌金暖灰宣纸主画布 */
+  --body-background: #1B1A18 !important;
+  --content: #1B1A18 !important;
+  --shell: #141312 !important;                 /* M3 Surface Dim: 砚台深墨外框与侧栏 */
+  --sidebar: #141312 !important;
+  --vscode-sideBar-background: #141312 !important;
+
+  /* --- M3 Surface Containers (逐级抬升的纯色暖灰容器，零毛玻璃) --- */
+  --onyx-frame: #141312 !important;            /* Surface Container Lowest */
+  --onyx-well: #181715 !important;             /* Surface Container Low */
+  --card: #23211E !important;                  /* Surface Container: 卡片 / 用户消息气泡 */
+  --onyx-raised: #252320 !important;           /* Surface Container High: 悬浮块 / 弹窗 */
+  --onyx-selected: #332B26 !important;         /* M3 Secondary Container: 侧栏选中胶囊 */
+  --onyx-key: #302D29 !important;              /* Surface Container Highest: 按键 / 徽章 */
+  --glass: #252320 !important;                 /* 强制纯色 M3 容器，替代玻璃 */
+
+  /* --- M3 Tonal Fills & Overlays --- */
+  --secondary: rgba(234, 228, 220, 0.065) !important;
+  --muted: rgba(234, 228, 220, 0.042) !important;
+  --sidebar-secondary: #2B2622 !important;
+  --sidebar-muted: rgba(234, 228, 220, 0.045) !important;
+  --scrim: rgba(12, 11, 10, 0.72) !important;
+  --home-glow: transparent !important;         /* M3 极简克制：移除顶部霓虹环境光晕 */
+
+  /* --- M3 Outlines (干净利落的 1px 暖石分界线，无高光倒角) --- */
+  --border: rgba(234, 228, 220, 0.085) !important;
+  --sidebar-border: rgba(234, 228, 220, 0.075) !important;
+  --card-border: rgba(234, 228, 220, 0.105) !important;
+  --card-edge: rgba(234, 228, 220, 0.105) !important;
+  --sash-line: rgba(234, 228, 220, 0.12) !important;
+  --glass-border: rgba(234, 228, 220, 0.11) !important;
+  --glass-highlight: transparent !important;
+
+  /* --- M3 Typography & Ink Tokens (温润象牙宣纸墨色阶) --- */
+  --foreground: #EAE4DC !important;            /* On Surface: 温润象牙白，久看不刺眼 */
+  --secondary-foreground: #CFC8BD !important;  /* On Surface Variant: 亚麻暖灰 */
+  --muted-foreground: #968F85 !important;      /* Outline / Muted: 暖石灰 */
+  --placeholder: #6E685F !important;
+
+  /* --- M3 Primary & Semantic Accents (Anthropic 赤陶暖橘色系) --- */
+  --primary: #D97757 !important;
+  --primary-foreground: #FFFBF7 !important;
+  --editor-selection-background: rgba(217, 119, 87, 0.32) !important;
+  --editor-comment-selection-background: rgba(217, 119, 87, 0.18) !important;
+  --editor-code-block-background: #161513 !important;
+  --code-foreground: #EAB099 !important;
+  --link: #E29578 !important;
+  --success: #8FBF7F !important;
+  --warning: #E5C07B !important;
+  --error: #E06C75 !important;
+
+  /* --- Warm Paper Dark 代码语法高亮 (告别刺眼荧光 Monokai) --- */
+  --syntax-default-fg: #E6E0D6 !important;
+  --syntax-comment: #7D766D !important;
+  --syntax-punctuation: #BDB6AC !important;
+  --syntax-operator: #D5CEC4 !important;
+  --syntax-variable: #EAE4DC !important;
+  --syntax-keyword: #E08A6D !important;
+  --syntax-property: #DF9A84 !important;
+  --syntax-tag: #E08A6D !important;
+  --syntax-deleted: #E06C75 !important;
+  --syntax-inserted: #A3BE8C !important;
+  --syntax-string: #A3BE8C !important;
+  --syntax-attr-value: #A3BE8C !important;
+  --syntax-attr-name: #D8B483 !important;
+  --syntax-builtin: #D8B483 !important;
+  --syntax-function: #E5C07B !important;
+  --syntax-class-name: #E5C07B !important;
+  --syntax-number: #D39BB6 !important;
+  --syntax-constant: #D39BB6 !important;
+  --syntax-regex: #E09F67 !important;
+
+  /* --- 输入框 (Composer) M3 容器与夜间火漆蜡封绑定 --- */
+  --ag-composer-tray-bg: #171614 !important;
+  --ag-composer-card-bg: #23211E !important;
+  --ag-composer-card-border: rgba(234, 228, 220, 0.08) !important;
+  --ag-composer-card-shadow: none !important;
+  --ag-composer-card-focus-border: rgba(217, 119, 87, 0.28) !important;
+  --ag-composer-card-focus-shadow: 0 2px 10px rgba(0, 0, 0, 0.22) !important;
+
+  --ag-seal-home-border: rgba(234, 228, 220, 0.11) !important;
+  --ag-seal-home-shadow: none !important;
+  --ag-seal-home-focus-border: rgba(217, 119, 87, 0.55) !important;
+  --ag-seal-home-focus-shadow: 0 0 0 2px rgba(217, 119, 87, 0.12) !important;
+
+  --ag-seal-chat-border: rgba(217, 119, 87, 0.24) !important;
+  --ag-seal-chat-shadow: none !important;
+  --ag-seal-chat-focus-border: var(--ag-dark-wax-seal-hover, rgba(217, 119, 87, 0.78)) !important;
+  --ag-seal-chat-focus-shadow: 0 0 0 2px rgba(217, 119, 87, 0.14) !important;
+  --ag-seal-off-border: rgba(234, 228, 220, 0.12) !important;
+
+  --ag-composer-top-fg: #CFC8BD !important;
+  --ag-composer-top-hover-bg: rgba(217, 119, 87, 0.12) !important;
+  --ag-composer-top-hover-fg: #F4EFE6 !important;
+  --ag-composer-ctrl-fg: #D5CEC4 !important;
+
+  /* M3 Flat Tonal Primary Button (去除立体高光渐变，纯粹扁平质感) */
+  --ag-send-btn-bg: #D97757 !important;
+  --ag-send-btn-hover-bg: #E38667 !important;
+  --ag-send-btn-border: transparent !important;
+  --ag-send-btn-shadow: none !important;
+
+  /* 侧栏与菜单文字暖纸墨阶 */
+  --ag-sidebar-fg: #DAD3C8 !important;
+  --ag-sidebar-row-fg: #C8C1B6 !important;
+  --ag-sidebar-header-fg: #B8B0A4 !important;
+  --ag-sidebar-header-title-fg: #E6DFD5 !important;
+  --ag-sidebar-selected-fg: #F7F2EA !important;
+  --ag-sidebar-muted-fg: #8E877D !important;
+  --ag-menu-item-fg: #E6DFD5 !important;
+  --ag-menu-header-fg: #9E968B !important;
+  --ag-dialog-title-fg: #F3EFE8 !important;
+  --ag-dialog-item-fg: #E6DFD5 !important;
+}
+
+/* ============================================================================
+ * 2. Material Design 3 细节打磨（纯色无纹理、圆润胶囊态、纸感阅读层次）
+ * ============================================================================ */
+
+/* 侧栏选中项：M3 Secondary Container 暖褐胶囊，去除原版内发光塑料高光 */
+body[data-agy-theme][data-newux-theme="onyx"].dark .agy-sidebar-row[data-selected="true"],
+:is(html[data-ag-theme-mode="dark"] body, body.dark) :is(.agy-sidebar-row[data-selected="true"], [data-testid="conversation-row-sidebar"][data-selected="true"]) {
+  background-color: #312722 !important;
+  --row-bg: #312722 !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+}
+
+/* 侧栏悬停态：M3 State Layer 暖色叠加 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark) :is([data-testid="conversation-row-sidebar"], .agy-sidebar-row):not([data-selected="true"]):hover {
+  background-color: rgba(234, 228, 220, 0.055) !important;
+  border-radius: 10px !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) :is([data-testid="conversation-row-sidebar"], .agy-sidebar-row):not([data-selected="true"]):hover span.truncate {
+  color: #F3EFE8 !important;
+}
+
+/* 生成中止按钮 (input-cancel-button)：M3 暖石色阶扁平过渡 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) #antigravity\.agentSidePanelInputBox button[data-testid="input-cancel-button"] {
+  background-color: rgba(234, 228, 220, 0.10) !important;
+  color: #EAE4DC !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) #antigravity\.agentSidePanelInputBox button[data-testid="input-cancel-button"]:hover {
+  background-color: rgba(217, 119, 87, 0.22) !important;
+  color: #FFFBF7 !important;
+}
+
+/* 用户提问气泡：M3 Surface Container High 暖石卡片 + 柔和圆角 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) .agy-user-bubble {
+  background-color: #272420 !important;
+  border: 1px solid rgba(234, 228, 220, 0.09) !important;
+  box-shadow: none !important;
+}
+
+/* 对话正文与标题（完整兼容 v5.3.0 [data-markdown-root] 流式容器）：象牙宣纸色调，告别死白 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) :is([data-markdown-root], [data-testid="user-message-content"], .select-text, .prose, .markdown) {
+  color: #E8E2D9 !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) :is([data-markdown-root], [data-testid="user-message-content"], .select-text, .prose, .markdown) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+  color: #F5F1E9 !important;
+}
+
+/* 行内代码：M3 Tonal Chip 暖陶胶囊标签 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) :is([data-markdown-root], .select-text, .prose, .markdown) :not(pre) > code {
+  background-color: #2A2521 !important;
+  border: 1px solid rgba(217, 119, 87, 0.22) !important;
+  border-radius: 6px !important;
+  padding: 0.14em 0.42em !important;
+  color: #EAB099 !important;
+}
+
+/* 代码块容器：砚黑内衬底色 + 1px 暖灰描边 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) :is(pre, [data-markdown-root] pre, .prose pre, .markdown pre) {
+  background-color: #151412 !important;
+  border: 1px solid rgba(234, 228, 220, 0.085) !important;
+  box-shadow: none !important;
+}
+
+/* 引用块 (Blockquote)：书卷赤陶左饰线 + 暖灰底衬 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark, body.theme-dark) :is([data-markdown-root], .select-text, .prose, .markdown) blockquote {
+  border-left: 3px solid #D97757 !important;
+  background-color: rgba(234, 228, 220, 0.03) !important;
+  padding: 0.4em 0.9em !important;
+  border-radius: 0 8px 8px 0 !important;
+  color: #CEC7BC !important;
+}
+
+/* 实时指标胶囊 (TPS / TTFT / Ctx / +N sub) 与悬浮详情卡：M3 暖灰对齐 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill {
+  color: #C8C1B6 !important;
+  border-left-color: rgba(234, 228, 220, 0.16) !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill:hover,
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill:hover #ag-live-metrics-text {
+  color: #F5F1E9 !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill[data-ag-row-mode="bottom"] {
+  border-top-color: rgba(234, 228, 220, 0.13) !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #antigravity\.agentSidePanelInputBox #ag-live-metrics-pill .ag-ctx-warn,
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill .ag-ctx-warn,
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #antigravity\.agentSidePanelInputBox #ag-live-metrics-pill .ag-zh-warn-dot,
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill .ag-zh-warn-dot {
+  color: #E5C07B !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #antigravity\.agentSidePanelInputBox #ag-live-metrics-pill .ag-ctx-crit,
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill .ag-ctx-crit {
+  color: #E06C75 !important;
+}
+
+/* v5.3.0 子 Agent / Swarm 汇总徽标 (+N sub)：M3 赤陶暖橘胶囊 */
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #antigravity\.agentSidePanelInputBox #ag-live-metrics-pill .ag-sub-badge,
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-pill .ag-sub-badge {
+  background-color: rgba(217, 119, 87, 0.16) !important;
+  border-color: rgba(217, 119, 87, 0.34) !important;
+  color: #F0B29A !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-tooltip {
+  background-color: #252320 !important;
+  border: 1px solid rgba(234, 228, 220, 0.14) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
+  color: #EAE4DC !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-tooltip .ag-tt-hdr {
+  color: #F5F1E9 !important;
+  border-bottom-color: rgba(234, 228, 220, 0.11) !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-tooltip .ag-tt-lbl {
+  color: #9E968B !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-tooltip .ag-tt-val {
+  color: #F3EFE8 !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-tooltip .ag-tt-warn {
+  background-color: rgba(229, 192, 123, 0.10) !important;
+  border-color: rgba(229, 192, 123, 0.28) !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-tooltip .ag-tt-warn-lbl {
+  color: #E5C07B !important;
+}
+
+:is(html[data-ag-theme-mode="dark"] body, body.dark) #ag-live-metrics-tooltip .ag-tt-warn-val {
+  color: #CFC8BD !important;
+}

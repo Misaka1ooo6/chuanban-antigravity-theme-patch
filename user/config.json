@@ -13,5 +13,9 @@
     "customCss": true,
     "customJs": true
   },
-  "themeVars": {}
+  "themeVars": {
+    "--ag-chat-font-size": "16px",
+    "--ag-wax-seal-hover": "#74221A",
+    "--ag-dark-wax-seal-hover": "rgba(217, 119, 87, 0.78)"
+  }
 }
