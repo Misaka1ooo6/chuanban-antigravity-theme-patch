@@ -1,12 +1,12 @@
 /* ============================================================================
- * 墨韵暖灰 · Material Design 3 质感增强层 (适配 v5.4.1+ 原生 claude-warm 书卷按钮)
+ * 墨韵暖灰 · Material Design 3 深邃乌金版 (适配 v5.4.1+ 原生 claude-warm 书卷按钮)
  *
  * 架构说明：
  * 1. 所有深色规则严格绑定在 html[data-ag-dark-preset="claude-warm"] 作用域下：
- *    - 点击设置「📖 暖纸深色」按钮 -> 激活上游 #242320 暖炭底色 + 本文件的 M3 扁平去高光 & 暖纸代码高亮；
- *    - 点击设置「🌙 深色」按钮     -> 0ms 无损切回官方原生 onyx 冷碳黑，互不干扰。
- * 2. 基础暖炭色盘（#242320 主背景 / #1B1A18 侧栏 / #F3F0E4 象牙字 / #D97757 陶土橙）
- *    已由 v5.4.1 core/theme.css 原生提供，本文件仅专注叠加 Material Design 3 纯粹质感与代码语法配色。
+ *    - 点击设置「📖 暖纸深色」按钮 -> 激活深邃乌金暖灰底 (#1B1A18) + M3 扁平色阶 + 暖纸代码高亮；
+ *    - 点击设置「🌙 深色」按钮     -> 0ms 无损切回官方原生 onyx 冷碳黑 (#070708)，互不干扰。
+ * 2. 注意：本文件位于源码仓库 ~/Projects/chuanban-antigravity-theme-patch/user/custom.css，
+ *    手动修改后运行 `node install.mjs install --sync-user` 即可同步至运行时目录并热生效。
  * ============================================================================ */
 
 html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"],
@@ -17,24 +17,40 @@ html[data-ag-dark-preset="claude-warm"] body.theme-dark,
 html[data-ag-dark-preset="claude-warm"] body[data-agy-theme].dark,
 html[data-ag-dark-preset="claude-warm"][data-ag-preset] body.dark,
 html[data-ag-dark-preset="claude-warm"][data-ag-preset] body[data-agy-theme].dark {
-  /* --- [备选开关] 若体验后觉得上游 #242320 偏亮，取消下方 7 行注释即可切回深邃乌金底 #1B1A18 ---
-  --background: #1B1A18 !important;
+  /* --- 1. M3 Tonal Surface 色阶容器（比上游 #242320 沉稳一档的乌金暖炭色阶） --- */
+  --background: #1B1A18 !important;            /* M3 Surface: 乌金暖灰宣纸主画布 */
   --body-background: #1B1A18 !important;
   --content: #1B1A18 !important;
-  --shell: #141312 !important;
+  --shell: #141312 !important;                 /* M3 Surface Dim: 砚台深墨侧栏 */
   --sidebar: #141312 !important;
   --vscode-sideBar-background: #141312 !important;
-  --card: #23211E !important;
-  ------------------------------------------------------------------------------------------ */
 
-  /* --- 1. Material Design 3 纯粹扁平化：去除顶部霓虹光晕、塑料内高光与厚重阴影 --- */
+  --onyx-frame: #141312 !important;            /* Surface Container Lowest */
+  --onyx-well: #181715 !important;             /* Surface Container Low */
+  --card: #23211E !important;                  /* Surface Container */
+  --onyx-raised: #252320 !important;           /* Surface Container High */
+  --onyx-selected: #332B26 !important;         /* M3 Secondary Container */
+  --onyx-key: #302D29 !important;              /* Surface Container Highest */
+  --glass: #252320 !important;
+
+  /* 温润象牙白文字（比上游 #F3F0E4 略柔和，夜间长时间盯屏更不刺眼） */
+  --foreground: #EAE4DC !important;
+  --secondary-foreground: #CFC8BD !important;
+  --muted-foreground: #968F85 !important;
+  --placeholder: #6E685F !important;
+
+  /* --- 2. M3 纯粹扁平化：去除顶部霓虹光晕、塑料内高光与厚重阴影 --- */
   --home-glow: transparent !important;
   --glass-highlight: transparent !important;
 
+  --ag-composer-tray-bg: #171614 !important;
+  --ag-composer-card-bg: #23211E !important;
+  --ag-composer-card-border: rgba(234, 228, 220, 0.08) !important;
   --ag-composer-card-shadow: none !important;
-  --ag-composer-card-focus-border: rgba(217, 119, 87, 0.34) !important;
+  --ag-composer-card-focus-border: rgba(217, 119, 87, 0.32) !important;
   --ag-composer-card-focus-shadow: 0 2px 10px rgba(0, 0, 0, 0.22) !important;
 
+  --ag-seal-home-border: rgba(234, 228, 220, 0.11) !important;
   --ag-seal-home-shadow: none !important;
   --ag-seal-home-focus-shadow: 0 0 0 2px rgba(217, 119, 87, 0.14) !important;
 
@@ -46,77 +62,86 @@ html[data-ag-dark-preset="claude-warm"][data-ag-preset] body[data-agy-theme].dar
   --ag-send-btn-border: transparent !important;
   --ag-send-btn-shadow: none !important;
 
-  /* --- 2. Warm Paper Dark 代码语法高亮 (替换默认刺眼荧光 Monokai) --- */
-  --editor-code-block-background: #1B1A18 !important;
-  --code-foreground: #F0B49D !important;
-  --syntax-default-fg: #ECE6DC !important;
-  --syntax-comment: #857E73 !important;
-  --syntax-punctuation: #C4BDB1 !important;
-  --syntax-operator: #DCD5C9 !important;
-  --syntax-variable: #F3F0E4 !important;
-  --syntax-keyword: #E28E71 !important;
-  --syntax-property: #E09E88 !important;
-  --syntax-tag: #E28E71 !important;
-  --syntax-deleted: #E0735C !important;
-  --syntax-inserted: #A6C18E !important;
-  --syntax-string: #A6C18E !important;
-  --syntax-attr-value: #A6C18E !important;
-  --syntax-attr-name: #DCB886 !important;
-  --syntax-builtin: #DCB886 !important;
-  --syntax-function: #E7C37E !important;
-  --syntax-class-name: #E7C37E !important;
-  --syntax-number: #D69FB9 !important;
-  --syntax-constant: #D69FB9 !important;
-  --syntax-regex: #E2A36B !important;
+  /* --- 3. Warm Paper Dark 代码语法高亮 (替换默认刺眼荧光 Monokai) --- */
+  --editor-code-block-background: #151412 !important;
+  --code-foreground: #EAB099 !important;
+  --syntax-default-fg: #E6E0D6 !important;
+  --syntax-comment: #7D766D !important;
+  --syntax-punctuation: #BDB6AC !important;
+  --syntax-operator: #D5CEC4 !important;
+  --syntax-variable: #EAE4DC !important;
+  --syntax-keyword: #E08A6D !important;
+  --syntax-property: #DF9A84 !important;
+  --syntax-tag: #E08A6D !important;
+  --syntax-deleted: #E06C75 !important;
+  --syntax-inserted: #A3BE8C !important;
+  --syntax-string: #A3BE8C !important;
+  --syntax-attr-value: #A3BE8C !important;
+  --syntax-attr-name: #D8B483 !important;
+  --syntax-builtin: #D8B483 !important;
+  --syntax-function: #E5C07B !important;
+  --syntax-class-name: #E5C07B !important;
+  --syntax-number: #D39BB6 !important;
+  --syntax-constant: #D39BB6 !important;
+  --syntax-regex: #E09F67 !important;
 }
 
 /* ============================================================================
- * 3. Material Design 3 组件几何与纸感排版细节（仅在 claude-warm 下生效）
+ * 4. Material Design 3 组件几何与纸感排版细节（仅在 claude-warm 下生效）
  * ============================================================================ */
 
 /* 侧栏选中项：M3 Secondary Container 暖褐圆角胶囊，去除原版 inset 塑料高光 */
 html[data-ag-dark-preset="claude-warm"] body[data-agy-theme][data-newux-theme="onyx"].dark .agy-sidebar-row[data-selected="true"],
 :is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark) :is(.agy-sidebar-row[data-selected="true"], [data-testid="conversation-row-sidebar"][data-selected="true"]) {
-  background-color: #382E28 !important;
-  --row-bg: #382E28 !important;
+  background-color: #312722 !important;
+  --row-bg: #312722 !important;
   box-shadow: none !important;
   border-radius: 10px !important;
 }
 
 /* 侧栏悬停态：M3 State Layer 柔和圆角过渡 */
 :is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark) :is([data-testid="conversation-row-sidebar"], .agy-sidebar-row):not([data-selected="true"]):hover {
-  background-color: rgba(243, 240, 228, 0.06) !important;
+  background-color: rgba(234, 228, 220, 0.055) !important;
   border-radius: 10px !important;
 }
 
-/* 用户提问气泡：M3 纯色容器无阴影 */
+/* 用户提问气泡：M3 纯色暖石容器无阴影 */
 :is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark, html[data-ag-dark-preset="claude-warm"] body.theme-dark) .agy-user-bubble {
-  background-color: #2E2C28 !important;
-  border: 1px solid rgba(243, 240, 228, 0.09) !important;
+  background-color: #272420 !important;
+  border: 1px solid rgba(234, 228, 220, 0.09) !important;
   box-shadow: none !important;
+}
+
+/* 对话正文与标题：象牙宣纸色调 */
+:is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark, html[data-ag-dark-preset="claude-warm"] body.theme-dark) :is([data-markdown-root], [data-testid="user-message-content"], .select-text, .prose, .markdown) {
+  color: #E8E2D9 !important;
+}
+
+:is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark, html[data-ag-dark-preset="claude-warm"] body.theme-dark) :is([data-markdown-root], [data-testid="user-message-content"], .select-text, .prose, .markdown) :is(h1, h2, h3, h4, h5, h6, strong, b) {
+  color: #F5F1E9 !important;
 }
 
 /* 行内代码：M3 Tonal Chip 暖陶胶囊标签 */
 :is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark, html[data-ag-dark-preset="claude-warm"] body.theme-dark) :is([data-markdown-root], .select-text, .prose, .markdown) :not(pre) > code {
-  background-color: #322B26 !important;
-  border: 1px solid rgba(217, 119, 87, 0.24) !important;
+  background-color: #2A2521 !important;
+  border: 1px solid rgba(217, 119, 87, 0.22) !important;
   border-radius: 6px !important;
   padding: 0.14em 0.42em !important;
-  color: #F0B49D !important;
+  color: #EAB099 !important;
 }
 
-/* 代码块容器：沉降一档的 #1B1A18 砚灰内衬 + 1px 暖石细描边 */
+/* 代码块容器：比 #1B1A18 主画布再深一档的 #151412 砚黑内衬 + 1px 暖灰细描边 */
 :is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark, html[data-ag-dark-preset="claude-warm"] body.theme-dark) :is(pre, [data-markdown-root] pre, .prose pre, .markdown pre) {
-  background-color: #1B1A18 !important;
-  border: 1px solid rgba(243, 240, 228, 0.09) !important;
+  background-color: #151412 !important;
+  border: 1px solid rgba(234, 228, 220, 0.085) !important;
   box-shadow: none !important;
 }
 
 /* 引用块 (Blockquote)：书卷赤陶左饰线 + 暖灰微底衬 */
 :is(html[data-ag-dark-preset="claude-warm"][data-ag-theme-mode="dark"] body, html[data-ag-dark-preset="claude-warm"] body.dark, html[data-ag-dark-preset="claude-warm"] body.theme-dark) :is([data-markdown-root], .select-text, .prose, .markdown) blockquote {
   border-left: 3px solid #D97757 !important;
-  background-color: rgba(243, 240, 228, 0.035) !important;
+  background-color: rgba(234, 228, 220, 0.03) !important;
   padding: 0.4em 0.9em !important;
   border-radius: 0 8px 8px 0 !important;
-  color: #DAD5C5 !important;
+  color: #CEC7BC !important;
 }
